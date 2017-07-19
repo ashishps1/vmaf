@@ -147,9 +147,12 @@ install:
 	ar -dv $(lib) main.o
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
 	mkdir -p $(DESTDIR)$(PREFIX)/include
+	mkdir -p $(DESTDIR)$(PREFIX)/share
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/pkgconfig
 	cp $(lib) $(DESTDIR)$(PREFIX)/lib/$(lib)
 	cp src/libvmaf.h $(DESTDIR)$(PREFIX)/include/
 	cp -r ../model $(DESTDIR)$(PREFIX)/share/
+	cp libvmaf.pc $(DESTDIR)$(PREFIX)/lib/pkgconfig/
 
 .PHONY: uninstall
 uninstall:
@@ -157,6 +160,7 @@ uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/lib/$(lib)
 	rm -f $(DESTDIR)$(PREFIX)/include/libvmaf.h
 	rm -fr $(DESTDIR)$(PREFIX)/share/model
+	rm -f $(DESTDIR)$(PREFIX)/lib/pkgconfig/libvmaf.pc
 
 clean:
 	rm -f $(OBJDIR)/*.o
