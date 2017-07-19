@@ -126,21 +126,19 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 $(OBJDIR)/%.o: $(SRCDIR)/pugixml/%.cpp
 	$(CXX) -c -o $@ $(CXXFLAGS) $(CPPFLAGS) $<
 
-vmafossexec: $(OBJS)
+PREFIX = /usr/local
+
+lib = libvmaf.a
+
+$(lib): $(OBJS) $(wildcard ../ptools/*.o)
+	ar rcs $@ $^
+
+vmafossexec: $(lib)
 ifeq ($(shell uname),Darwin)
 	$(CXX) -o $@ $(LDFLAGS) $^ -L$(PTOOLSDIR) $(LIBS) -Wl
 else
 	$(CXX) -o $@ $(LDFLAGS) $^ -L$(PTOOLSDIR) $(LIBS) -Wl,-rpath=$(PTOOLSDIR)
 endif
-
-
-PREFIX = /usr/local
-
-lib = libvmaf.a
-obj =  $(wildcard ../ptools/*.o) $(wildcard obj/*.o)
-
-$(lib): $(obj)
-	ar rcs $@ $^
 
 .PHONY: install
 install:
